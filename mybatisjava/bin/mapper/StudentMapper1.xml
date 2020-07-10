@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- /src/mapper/MemberMapper1.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="student">
+<sql id="cols"> studno, name, id, grade, jumin, birthday, tel, height, weight, major1, major2, profno</sql>
+	<select id="count" resultType="int">
+		select count(*) from student
+	</select>
+	<select id="list" resultType="Student">
+	select <include refid="cols"/> from Student
+	</select> 
+	<select id="selectgrade" resultType="Student">
+	select <include refid="cols"/> from Student order by grade Asc
+	</select>
+	<select id="selectname" resultType="Student" parameterType="String">
+	select <include refid="cols" /> from student where name like #{value}
+	</select>
+	
+<!-- 수업 -->
+	<insert id="insert" parameterType="Student">
+		insert into student(studno, name, id, jumin, grade,major1)
+		values(#{studno},#{name}, #{id},#{jumin},#{grade},#{major1})
+	</insert>
+	<select id="selectno" resultType="Student" parameterType="int">
+		select * from student where studno =#{value}
+	</select>
+	<update id="update" parameterType="Student">
+		update Student set grade=#{grade}, weight=#{weight}, height=#{height}, profno=#{profno} where studno=#{studno}
+	</update>
+	<select id="selectname1" resultType="Student" parameterType="String">
+	select * from student where left(name,1)=#{name}
+	</select>
+	
+	<select id="select2" resultType="Student" parameterType="map">
+	select * from student
+	where ${col} >= #{val}
+	</select>
+	<delete id="delete"  parameterType="map">
+	delete from student where ${col} = #{val} 
+	</delete>
+	<select id="select4" resultType="Student" parameterType="map">
+	select * from student
+	where ${col} = #{val}
+	</select>
+</mapper>
